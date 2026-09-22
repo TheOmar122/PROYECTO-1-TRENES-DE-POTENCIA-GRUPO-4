@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analizador de Mapa de Rendimiento (BSFC) | Volvo S40 / V40 2.0T</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Portada Institucional y Metadatos del Proyecto -->
+    <header class="institutional-banner">
+      <div class="banner-top-bar">
+        <div class="institution-title-group">
+          <div class="institution-emblem">🏛️</div>
+          <div class="institution-texts">
+            <h2 id="dispUni">Universidad de las Fuerzas Armadas / Politécnica</h2>
+            <p id="dispFac">Facultad de Ingeniería Mecánica y Ciencias de la Producción</p>
+          </div>
+        </div>
+
+        <!-- Controles de Tema y Edición -->
+        <div class="theme-and-actions">
+          <label class="theme-selector-label" for="themeSelect">Estilo:</label>
+          <select id="themeSelect" class="theme-select">
+            <option value="theme-obsidian-gold">🏆 Obsidian & Oro Titanio</option>
+            <option value="theme-academic-light">🏛️ Academia Clean (Blanco)</option>
+            <option value="theme-carbon-racing">⚡ Carbon Racing (Titanio)</option>
+            <option value="theme-petrol-tech">🌿 Petrol Tech (Ingeniería)</option>
+          </select>
+          <button id="openEditModalBtn" class="edit-btn">
+            ✏️ Editar Carátula
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid de Metadatos del Proyecto -->
+      <div class="academic-meta-grid">
+        <div class="meta-box">
+          <div class="meta-label">📚 Asignatura / Materia</div>
+          <div class="meta-value" id="dispMat">Trenes de Potencia</div>
+          <div class="meta-sub">Proyecto de Laboratorio #1</div>
+        </div>
+
+        <div class="meta-box">
+          <div class="meta-label">👨‍🏫 Docente</div>
+          <div class="meta-value" id="dispDoc">Ing. Especialista en Trenes Motrices</div>
+          <div class="meta-sub">Área de Motores y Propulsión</div>
+        </div>
+
+        <div class="meta-box">
+          <div class="meta-label">👥 Integrantes del Equipo</div>
+          <div class="meta-value" id="dispInt">Grupo de Investigación Automotriz</div>
+          <div class="meta-sub">Semestre / Ciclo Académico</div>
+        </div>
+
+        <div class="meta-box">
+          <div class="meta-label">🎯 Temas Evaluados</div>
+          <div class="meta-value" id="dispTem">Mapas BSFC, Eficiencia Térmica y Cinemática</div>
+          <div class="meta-sub">Análisis cuantitativo de curvas isoconsumo</div>
+        </div>
+      </div>
+
+      <!-- Tira de Especificaciones del Vehículo -->
+      <div class="engine-specs-strip">
+        <span class="spec-pill">Vehículo: <strong>Volvo S40 / V40 (2.0T)</strong></span>
+        <span class="spec-pill">Motor: <strong>2.0 Litros Turbo (B4204T 16V)</strong></span>
+        <span class="spec-pill">Diferencial (RF): <strong>4.00 : 1</strong></span>
+        <span class="spec-pill">Perímetro Rueda: <strong>1.9320 m</strong></span>
+        <span class="spec-pill">Transmisión: <strong>5 Vel. Manual</strong></span>
+      </div>
+    </header>
+
+    <!-- Tarjeta Destacada del Vehículo: Volvo S40 / V40 2.0T -->
+    <section class="vehicle-spotlight-card card">
+      <div class="vehicle-spotlight-content">
+        <div class="vehicle-image-box">
+          <img src="volvo_s40.jpg" alt="Volvo S40 / V40 2.0T" class="vehicle-img" draggable="false">
+          <div class="vehicle-image-badge">🇸🇪 Suecia • Volvo S40 / V40 2.0T</div>
+        </div>
+        <div class="vehicle-info-box">
+          <div class="vehicle-tagline">Vehículo Objeto de Estudio</div>
+          <h2 class="vehicle-model-title">Volvo S40 / V40 — 2.0T Turbo (1998-2004)</h2>
+          <p class="vehicle-desc">
+            El mapa de rendimiento y consumo específico (BSFC) analizado corresponde a la reconocida planta motriz de <strong>2.0 Litros Turbo (código de motor B4204T)</strong> montada transversalmente en la gama <strong>Volvo S40 (Sedán) / V40 (Familiar)</strong>. Este conjunto de propulsión entrega una respuesta lineal de par motor en regímenes medios acoplado a una transmisión manual de 5 velocidades ($3.07, 1.77, 1.19, 0.87, 0.70$), grupo cónico final <strong>RF = 4.00</strong> y ruedas con perímetro dinámico de <strong>1.9320 m</strong>.
+          </p>
+          <div class="vehicle-specs-grid">
+            <div class="vspec-item">
+              <span class="vspec-label">Configuración</span>
+              <span class="vspec-value">4 Cilindros en Línea DOHC 16V</span>
+            </div>
+            <div class="vspec-item">
+              <span class="vspec-label">Cilindrada Exacta</span>
+              <span class="vspec-value">1948 cc (~2.0 Litros)</span>
+            </div>
+            <div class="vspec-item">
+              <span class="vspec-label">Alimentación / Sobrealimentación</span>
+              <span class="vspec-value">Inyección Multipunto + Turbocompresor</span>
+            </div>
+            <div class="vspec-item">
+              <span class="vspec-label">Potencia & Par Fábrica</span>
+              <span class="vspec-value">160 CV (118 kW) @ 5100 RPM | 230 N·m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Layout Interactivo -->
+    <main class="main-layout">
+      
+      <!-- Columna Izquierda: Mapa del Motor y Selector de Marcha -->
+      <section class="map-card card">
+        <div class="card-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+          </svg>
+          Mapa de Rendimiento del Motor (BSFC)
+        </div>
+
+        <!-- Toolbar con Presets de Prueba Rápida -->
+        <div class="map-toolbar">
+          <div class="presets-group">
+            <button class="preset-btn highlight" onclick="selectPreset('optimal')">⭐ Isla Óptima (255 g/kWh)</button>
+            <button class="preset-btn" onclick="selectPreset('highway')">🛣️ Crucero Autopista (5ª)</button>
+            <button class="preset-btn" onclick="selectPreset('city')">🏙️ Urbano Parcial (3ª)</button>
+            <button class="preset-btn" onclick="selectPreset('wot')">⚡ Plena Carga (WOT)</button>
+            <button class="preset-btn" onclick="selectPreset('contour525')">📉 Zona Baja (525 g/kWh)</button>
+          </div>
+          <label class="guide-toggle-label">
+            <input type="checkbox" id="toggleGuide" checked>
+            <span>Ver Bounding Box</span>
+          </label>
+        </div>
+
+        <!-- Escenario Interactivo sobre la Imagen -->
+        <div class="map-stage-wrapper">
+          <div class="map-stage" id="mapStage" title="Haz clic en cualquier punto dentro de la cuadrícula">
+            <img id="engineMapImg" src="Imagen1.png" alt="Mapa de Rendimiento del Motor 2.0L" draggable="false">
+            
+            <!-- Guía Bounding Box (Área Útil) -->
+            <div id="bboxGuide" class="bounding-box-guide"></div>
+
+            <!-- Marcador Activo de Clic -->
+            <div id="clickMarker" class="click-marker">
+              <div class="marker-pulse"></div>
+              <div class="marker-center"></div>
+            </div>
+
+            <!-- Tooltip Flotante de Previsualización -->
+            <div id="hoverTooltip" class="hover-tooltip"></div>
+          </div>
+        </div>
+
+        <!-- Estado de Medición -->
+        <div class="map-status">
+          <div class="status-indicator">
+            <div id="statusDot" class="status-dot active"></div>
+            <span id="statusText">Listo. Haz clic en la gráfica para analizar el punto operativo.</span>
+          </div>
+          <span style="color: var(--text-muted); font-size: 0.75rem;">
+            Área de medición: 1000 - 6000 RPM | 0 - 18 bar
+          </span>
+        </div>
+
+        <!-- Pestañas de Parámetros Técnicos: Transmisión, Neumático, Vehículo y Entorno -->
+        <div class="params-card">
+          <div class="param-tabs-nav">
+            <button type="button" class="ptab-btn active" onclick="switchParamTab('ptab-trans')">⚙️ Transmisión</button>
+            <button type="button" class="ptab-btn" onclick="switchParamTab('ptab-tire')">🛞 Neumático (Dinámico)</button>
+            <button type="button" class="ptab-btn" onclick="switchParamTab('ptab-env')">⛰️ Vehículo y Entorno</button>
+          </div>
+
+          <!-- Panel 1: Transmisión -->
+          <div id="ptab-trans" class="ptab-panel active">
+            <div class="controls-grid">
+              <div class="control-group">
+                <label class="control-label" for="gearSelect">Marcha Actual</label>
+                <select id="gearSelect" class="custom-select">
+                  <option value="1">1ª Marcha — Relación 3.07:1</option>
+                  <option value="2">2ª Marcha — Relación 1.77:1</option>
+                  <option value="3">3ª Marcha — Relación 1.19:1</option>
+                  <option value="4">4ª Marcha — Relación 0.87:1</option>
+                  <option value="5" selected>5ª Marcha — Relación 0.70:1</option>
+                </select>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="inpRF">Relación Final / Diferencial (RF)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="inpRF" class="styled-input" step="0.01" value="4.00">
+                  <span class="unit-tag">: 1</span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="inpEtaT">Eficiencia de Transmisión (ηt)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="inpEtaT" class="styled-input" step="0.01" min="0.7" max="1.0" value="0.90">
+                  <span class="unit-tag">90%</span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="inpCurrentRt">Relación de la Marcha Activa (Rt)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="inpCurrentRt" class="styled-input" step="0.01" value="0.70">
+                  <span class="unit-tag">: 1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel 2: Neumático -->
+          <div id="ptab-tire" class="ptab-panel">
+            <div class="controls-grid">
+              <div class="control-group" style="grid-column: span 2;">
+                <label class="control-label" for="inpTireSize">Medida del Neumático (Ancho/Perfil-Rin)</label>
+                <div style="display: flex; gap: 8px;">
+                  <input type="text" id="inpTireSize" class="styled-input" value="205/55R16" placeholder="Ej: 205/55R16" style="padding-right: 12px;">
+                  <button type="button" class="btn-primary" onclick="updateTireCalculations()" style="padding: 0 16px; white-space: nowrap; font-size: 0.82rem;">Calcular</button>
+                </div>
+                <div class="tire-presets-row">
+                  <span style="font-size: 0.72rem; color: var(--text-muted); align-self: center;">Preajustes:</span>
+                  <button type="button" class="tire-preset-pill" onclick="applyTirePreset('205/55R16')">205/55R16 (Volvo OEM)</button>
+                  <button type="button" class="tire-preset-pill" onclick="applyTirePreset('195/65R15')">195/65R15</button>
+                  <button type="button" class="tire-preset-pill" onclick="applyTirePreset('225/45R17')">225/45R17</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resultados Automáticos del Neumático -->
+            <div class="tire-calc-results">
+              <div class="tire-stat">
+                <span class="tire-stat-label">Diámetro Nominal (D)</span>
+                <span id="dispTireD" class="tire-stat-value">631.9 mm</span>
+              </div>
+              <div class="tire-stat">
+                <span class="tire-stat-label">Radio Dinámico (rd)</span>
+                <span id="dispTireRdin" class="tire-stat-value" style="color: var(--accent-primary-light);">0.3075 m</span>
+              </div>
+              <div class="tire-stat">
+                <span class="tire-stat-label">Perímetro Dinámico (P)</span>
+                <span id="dispTireP" class="tire-stat-value">1.9320 m</span>
+              </div>
+              <div class="tire-stat">
+                <span class="tire-stat-label">Ancho / Perfil</span>
+                <span id="dispTireDims" class="tire-stat-value">205 / 112.8 mm</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel 3: Vehículo y Entorno -->
+          <div id="ptab-env" class="ptab-panel">
+            <div class="controls-grid">
+              <div class="control-group">
+                <label class="control-label" for="inpMass">Masa del Vehículo (m)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="inpMass" class="styled-input" value="1350" step="10">
+                  <span class="unit-tag">kg</span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="inpCd">Coef. Aerodinámico (Cd)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="inpCd" class="styled-input" value="0.31" step="0.01">
+                  <span class="unit-tag">Cx</span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="inpAf">Área Frontal (Af)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="inpAf" class="styled-input" value="2.08" step="0.01">
+                  <span class="unit-tag">m²</span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="inpFr">Coef. Rodadura (fr)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="inpFr" class="styled-input" value="0.013" step="0.001">
+                  <span class="unit-tag">Crr</span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="inpSlope">Pendiente Calzada (p)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="inpSlope" class="styled-input" value="0.0" step="0.5">
+                  <span class="unit-tag">%</span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="inpRho">Densidad del Aire (ρ)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="inpRho" class="styled-input" value="1.20" step="0.01">
+                  <span class="unit-tag">kg/m³</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Columna Derecha: Panel de Resultados Obligatorios -->
+      <aside class="results-panel">
+        <div class="card">
+          <div class="card-title" style="justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+              Resultados y Balance Dinámico
+            </div>
+            <span id="opZoneBadge" class="zone-badge zone-optimal">🌟 Isla Óptima (255 g/kWh)</span>
+          </div>
+
+          <div class="metrics-grid">
+            <!-- Balance Dinámico e Interpretación (Tarjeta Destacada) -->
+            <div id="balanceCard" class="balance-dynamic-card state-accelerating">
+              <div class="balance-header">
+                <span class="metric-header" style="color: inherit;">Balance Dinámico Longitudinal</span>
+                <span id="balanceBadge" class="balance-badge accel">🚀 El vehículo ACELERA</span>
+              </div>
+              <p id="balanceText" class="balance-summary-text">
+                La fuerza de tracción supera la resistencia total, generando aceleración positiva disponible.
+              </p>
+              <div class="balance-forces-bar">
+                <div class="bforce-col">
+                  <span class="bforce-title">Fuerza Tracción (Ft)</span>
+                  <span id="dispFt" class="bforce-value" style="color: #34d399;">1565 N</span>
+                </div>
+                <div class="bforce-col">
+                  <span class="bforce-title">Resistencia Total (Fres)</span>
+                  <span id="dispFres" class="bforce-value" style="color: #fb7185;">574 N</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Aceleración Disponible -->
+            <div class="metric-card">
+              <div class="metric-header">
+                <span>Aceleración Disponible (a)</span>
+                <span>(Ft − Fres)/m</span>
+              </div>
+              <div class="metric-val">
+                <span id="valAccel" style="color: var(--accent-emerald);">+0.73</span>
+                <span class="metric-unit">m/s²</span>
+              </div>
+              <div class="metric-sub">Capacidad dinámica neta</div>
+            </div>
+
+            <!-- Potencia Específica Vehicular (VSP) -->
+            <div class="metric-card">
+              <div class="metric-header">
+                <span>Pot. Específica (VSP)</span>
+                <span>(Ft × V)/m</span>
+              </div>
+              <div class="metric-val">
+                <span id="valVsp">37.3</span>
+                <span class="metric-unit">W/kg</span>
+              </div>
+              <div class="metric-sub"><span id="valVspKwt">37.3</span> kW/t (Jiménez-Palacios)</div>
+            </div>
+
+            <!-- Velocidad Vehículo -->
+            <div class="metric-card full-width" style="background: linear-gradient(145deg, var(--accent-tag-bg), rgba(0, 0, 0, 0.2));">
+              <div class="metric-header">
+                <span>Velocidad del Vehículo</span>
+                <span id="valGearDisplay" style="color: var(--accent-primary-light); font-weight: 700;">5ª (0.70)</span>
+              </div>
+              <div class="metric-val" style="font-size: 2.1rem; color: var(--accent-primary-light);">
+                <span id="valSpeed">115.9</span>
+                <span class="metric-unit" style="font-size: 1rem;">km/h</span>
+                <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted); margin-left: 10px;">(<span id="valSpeedMs">32.2</span> m/s)</span>
+              </div>
+              <div class="metric-sub">V = 2π × RPM × rd / (60 × Rt × RF)</div>
+            </div>
+
+            <!-- Fuerza de Tracción en Ruedas -->
+            <div class="metric-card full-width">
+              <div class="metric-header">
+                <span>Fuerza de Tracción en Ruedas (Ft)</span>
+                <span>(T × Rt × RF × ηt) / rd</span>
+              </div>
+              <div class="metric-val" style="font-size: 1.8rem; color: #34d399;">
+                <span id="valTractionForce">1565</span>
+                <span class="metric-unit" style="font-size: 1rem;">N</span>
+              </div>
+              <div class="metric-sub">Par a la rueda: <span id="valWheelTorque">481.3</span> N·m (ηt = 90%)</div>
+            </div>
+
+            <!-- Desglose de Fuerzas Resistentes -->
+            <div class="resistances-card">
+              <div class="resistances-title">
+                <span>Desglose de Fuerzas Resistentes [N]</span>
+                <span>Fres Total: <strong id="valFresTotal" style="color: #f43f5e;">574 N</strong></span>
+              </div>
+              <div class="resistances-row">
+                <div class="res-item aero">
+                  <span class="res-item-label">Aerodinámica (Faero)</span>
+                  <span id="valFaero" class="res-item-val">401 N</span>
+                </div>
+                <div class="res-item roll">
+                  <span class="res-item-label">Rodadura (Frod)</span>
+                  <span id="valFroll" class="res-item-val">172 N</span>
+                </div>
+                <div class="res-item slope">
+                  <span class="res-item-label">Pendiente (Fpend)</span>
+                  <span id="valFslope" class="res-item-val">0 N</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Motor: Régimen y Torque -->
+            <div class="metric-card">
+              <div class="metric-header">
+                <span>Régimen del Motor</span>
+                <span style="color: var(--accent-primary);">Eje X</span>
+              </div>
+              <div class="metric-val">
+                <span id="valRpm">2800</span>
+                <span class="metric-unit">RPM</span>
+              </div>
+              <div class="metric-sub">Punto activo del mapa</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span>Par Motor (Torque)</span>
+                <span>2.0L Turbo</span>
+              </div>
+              <div class="metric-val">
+                <span id="valTorque">191.0</span>
+                <span class="metric-unit">N·m</span>
+              </div>
+              <div class="metric-sub">PME: <span id="valPme">12.00</span> bar</div>
+            </div>
+
+            <!-- Potencia Motor -->
+            <div class="metric-card full-width">
+              <div class="metric-header">
+                <span>Potencia Efectiva del Motor</span>
+                <span>T × ω / 1000</span>
+              </div>
+              <div class="metric-val" style="font-size: 1.8rem; color: #ffffff;">
+                <span id="valPower">56.0</span>
+                <span class="metric-unit" style="font-size: 1rem;">kW</span>
+                <span style="font-size: 1rem; font-weight: 600; color: var(--accent-primary-light); margin-left: 10px;">(<span id="valHp">76.1</span> CV)</span>
+              </div>
+              <div class="metric-sub">Escala Y Der (WOT): <span id="valPowerScale">120.0</span> kW</div>
+            </div>
+
+            <!-- BSFC -->
+            <div id="bsfcCard" class="metric-card full-width bsfc-card sweet-spot">
+              <div class="metric-header">
+                <span>Consumo Específico (BSFC)</span>
+                <span>Isolíneas del Mapa</span>
+              </div>
+              <div class="metric-val" style="font-size: 2.2rem; color: #10b981;">
+                <span id="valBsfc">255.0</span>
+                <span class="metric-unit" style="font-size: 1.1rem; color: #10b981;">g/kWh</span>
+              </div>
+              <div class="metric-sub">Óptimo global en 2500-3000 RPM y 11-13 bar</div>
+            </div>
+
+            <!-- Eficiencia Térmica -->
+            <div class="metric-card full-width efficiency-card">
+              <div class="metric-header">
+                <span>Eficiencia Térmica del Motor</span>
+                <span style="color: var(--accent-emerald); font-weight: 700;">(83.72 / BSFC) × 100</span>
+              </div>
+              <div class="metric-val" style="font-size: 2.2rem; color: var(--accent-emerald);">
+                <span id="valEfficiency">32.8%</span>
+              </div>
+              <div class="efficiency-gauge-bar">
+                <div id="efficiencyBar" class="efficiency-fill" style="width: 82%;"></div>
+              </div>
+            </div>
+
+            <!-- Consumos de Combustible: L/h y L/100km -->
+            <div class="metric-card">
+              <div class="metric-header">
+                <span>Consumo Instantáneo</span>
+                <span>Flujo Horario</span>
+              </div>
+              <div class="metric-val">
+                <span id="valFuelL">19.17</span>
+                <span class="metric-unit">L/h</span>
+              </div>
+              <div class="metric-sub"><span id="valFuelKg">14.28</span> kg/h (gasolina)</div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-header">
+                <span>Consumo Específico</span>
+                <span>Por Distancia</span>
+              </div>
+              <div class="metric-val" style="color: var(--accent-primary-light);">
+                <span id="valFuel100km">16.53</span>
+                <span class="metric-unit">L/100km</span>
+              </div>
+              <div class="metric-sub">(L/h / V_kmh) × 100</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Galería Técnica y Fundamentos Teóricos de Referencia -->
+    <section class="reference-gallery-section">
+      <div class="section-header">
+        <h3>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+            <path d="M6 6h10"/><path d="M6 10h10"/>
+          </svg>
+          Diagramas Técnicos de Referencia y Fundamentos Teóricos
+        </h3>
+        <div class="diagram-tabs">
+          <button class="tab-btn active" onclick="switchDiagramTab('tab-powertrain')">🚗 Esquema Cinemático</button>
+          <button class="tab-btn" onclick="switchDiagramTab('tab-sankey')">🔥 Balance Térmico & Eficiencia</button>
+          <button class="tab-btn" onclick="switchDiagramTab('tab-bsfc-guide')">📈 Lectura del Mapa BSFC</button>
+        </div>
+      </div>
+
+      <div class="diagram-display-card">
+        <!-- Panel 1: Esquema Cinemático del Tren de Potencia -->
+        <div id="tab-powertrain" class="diagram-panel active">
+          <div>
+            <h4>1. Cadena Cinemática del Tren de Potencia (Motor 2.0L a Rueda)</h4>
+            <p>Representación del flujo de potencia desde el cigüeñal del motor (2.0L 4T) a través del embrague, la caja de 5 marchas, el árbol de transmisión, el diferencial con relación final RF = 4.0 y las ruedas con perímetro de 1.9320 m.</p>
+          </div>
+          <div class="svg-diagram-wrapper">
+            <svg viewBox="0 0 950 240" width="950" height="240" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="gradEngine" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#b45309" stop-opacity="0.9"/>
+                </linearGradient>
+                <linearGradient id="gradTrans" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.8"/>
+                </linearGradient>
+                <linearGradient id="gradDiff" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#10b981" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#047857" stop-opacity="0.8"/>
+                </linearGradient>
+                <linearGradient id="gradWheel" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#64748b" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#334155" stop-opacity="0.9"/>
+                </linearGradient>
+              </defs>
+              
+              <!-- Motor -->
+              <rect x="20" y="45" width="160" height="140" rx="12" fill="url(#gradEngine)" stroke="#fbbf24" stroke-width="2"/>
+              <text x="100" y="80" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold">MOTOR 2.0L</text>
+              <text x="100" y="105" text-anchor="middle" fill="#fef3c7" font-size="12">1000 - 6000 RPM</text>
+              <text x="100" y="125" text-anchor="middle" fill="#fef3c7" font-size="12">PME: 0 - 18 bar</text>
+              <text x="100" y="145" text-anchor="middle" fill="#fef3c7" font-size="12">Pot: 0 - 180 kW</text>
+              <text x="100" y="170" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">BSFC: 255 g/kWh</text>
+
+              <!-- Eje Motor -> Embrague -->
+              <line x1="180" y1="115" x2="230" y2="115" stroke="#f59e0b" stroke-width="6" stroke-linecap="round"/>
+              <text x="205" y="105" text-anchor="middle" fill="#cbd5e1" font-size="10">Eje cigüeñal</text>
+
+              <!-- Embrague -->
+              <rect x="230" y="70" width="30" height="90" rx="6" fill="#475569" stroke="#94a3b8" stroke-width="1.5"/>
+              <text x="245" y="120" text-anchor="middle" fill="#ffffff" font-size="10" transform="rotate(-90 245 120)">EMBRAGUE</text>
+
+              <!-- Eje Embrague -> Caja -->
+              <line x1="260" y1="115" x2="300" y2="115" stroke="#38bdf8" stroke-width="6" stroke-linecap="round"/>
+
+              <!-- Caja de Transmisión -->
+              <rect x="300" y="45" width="180" height="140" rx="12" fill="url(#gradTrans)" stroke="#60a5fa" stroke-width="2"/>
+              <text x="390" y="75" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="bold">CAJA MANUAL</text>
+              <text x="390" y="98" text-anchor="middle" fill="#dbeafe" font-size="11">1ª: 3.07 | 2ª: 1.77</text>
+              <text x="390" y="118" text-anchor="middle" fill="#dbeafe" font-size="11">3ª: 1.19 | 4ª: 0.87</text>
+              <text x="390" y="138" text-anchor="middle" fill="#dbeafe" font-size="11">5ª: 0.70</text>
+              <text x="390" y="165" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">Relación Variable (Rt)</text>
+
+              <!-- Árbol Cardán -->
+              <line x1="480" y1="115" x2="570" y2="115" stroke="#60a5fa" stroke-width="7" stroke-linecap="round"/>
+              <text x="525" y="105" text-anchor="middle" fill="#cbd5e1" font-size="10">Árbol cardán</text>
+
+              <!-- Diferencial -->
+              <rect x="570" y="55" width="140" height="120" rx="12" fill="url(#gradDiff)" stroke="#34d399" stroke-width="2"/>
+              <text x="640" y="88" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">DIFERENCIAL</text>
+              <text x="640" y="112" text-anchor="middle" fill="#d1fae5" font-size="12">Grupo Cónico</text>
+              <text x="640" y="134" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">RF = 4.00 : 1</text>
+              <text x="640" y="155" text-anchor="middle" fill="#d1fae5" font-size="11">Relación Final Fija</text>
+
+              <!-- Semiejes hacia las ruedas -->
+              <line x1="710" y1="85" x2="790" y2="50" stroke="#94a3b8" stroke-width="6"/>
+              <line x1="710" y1="145" x2="790" y2="180" stroke="#94a3b8" stroke-width="6"/>
+
+              <!-- Ruedas -->
+              <!-- Rueda Superior -->
+              <rect x="790" y="25" width="120" height="50" rx="10" fill="url(#gradWheel)" stroke="#e2e8f0" stroke-width="2"/>
+              <text x="850" y="55" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">RUEDA TRACCIÓN</text>
+
+              <!-- Rueda Inferior -->
+              <rect x="790" y="155" width="120" height="50" rx="10" fill="url(#gradWheel)" stroke="#e2e8f0" stroke-width="2"/>
+              <text x="850" y="185" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">RUEDA TRACCIÓN</text>
+
+              <text x="850" y="115" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold">Perímetro = 1.9320 m</text>
+              <text x="850" y="132" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="bold">Velocidad V (km/h)</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Panel 2: Balance Térmico y Energético (Sankey) -->
+        <div id="tab-sankey" class="diagram-panel">
+          <div>
+            <h4>2. Balance de Energía y Rendimiento Térmico del Motor de Combustión</h4>
+            <p>En el punto de máximo rendimiento económico (BSFC = 255 g/kWh), el motor transforma el 32.8% de la energía química del combustible en potencia mecánica al freno. El 67.2% restante se disipa como calor al refrigerante, en los gases de escape y por fricción mecánica.</p>
+          </div>
+          <div class="svg-diagram-wrapper">
+            <svg viewBox="0 0 920 220" width="920" height="220" xmlns="http://www.w3.org/2000/svg">
+              <!-- Energía Total Combustible -->
+              <rect x="30" y="40" width="180" height="140" rx="10" fill="#f43f5e" fill-opacity="0.85" stroke="#f43f5e" stroke-width="2"/>
+              <text x="120" y="90" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold">ENERGÍA TOTAL</text>
+              <text x="120" y="115" text-anchor="middle" fill="#ffe4e6" font-size="13">Poder Calorífico (PCI)</text>
+              <text x="120" y="145" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="900">100%</text>
+
+              <!-- Conexión central motor -->
+              <path d="M 210 110 L 320 110" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round"/>
+
+              <!-- Rama 1: Potencia Efectiva Útil (32.8%) -->
+              <path d="M 320 110 C 380 110, 420 40, 500 40 L 680 40" fill="none" stroke="#10b981" stroke-width="12" stroke-linecap="round"/>
+              <rect x="690" y="20" width="200" height="42" rx="8" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="1.5"/>
+              <text x="790" y="38" text-anchor="middle" fill="#34d399" font-size="12" font-weight="bold">TRABAJO AL FRENO (ÚTIL)</text>
+              <text x="790" y="55" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">32.8% (BSFC 255 g/kWh)</text>
+
+              <!-- Rama 2: Pérdidas por Refrigerante (30.0%) -->
+              <path d="M 320 110 C 380 110, 420 90, 500 90 L 680 90" fill="none" stroke="#06b6d4" stroke-width="10" stroke-linecap="round"/>
+              <rect x="690" y="70" width="200" height="40" rx="8" fill="#06b6d4" fill-opacity="0.2" stroke="#06b6d4" stroke-width="1.5"/>
+              <text x="790" y="87" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="bold">CALOR AL REFRIGERANTE</text>
+              <text x="790" y="103" text-anchor="middle" fill="#ffffff" font-size="12">~ 30.0% (Pérdida en camisas)</text>
+
+              <!-- Rama 3: Pérdidas en Gases de Escape (31.2%) -->
+              <path d="M 320 110 C 380 110, 420 140, 500 140 L 680 140" fill="none" stroke="#f59e0b" stroke-width="10" stroke-linecap="round"/>
+              <rect x="690" y="120" width="200" height="40" rx="8" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1.5"/>
+              <text x="790" y="137" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">GASES DE ESCAPE</text>
+              <text x="790" y="153" text-anchor="middle" fill="#ffffff" font-size="12">~ 31.2% (Entalpía residual)</text>
+
+              <!-- Rama 4: Pérdidas Mecánicas y Bombeo (6.0%) -->
+              <path d="M 320 110 C 380 110, 420 190, 500 190 L 680 190" fill="none" stroke="#a855f7" stroke-width="5" stroke-linecap="round"/>
+              <rect x="690" y="170" width="200" height="40" rx="8" fill="#a855f7" fill-opacity="0.2" stroke="#a855f7" stroke-width="1.5"/>
+              <text x="790" y="187" text-anchor="middle" fill="#c084fc" font-size="11" font-weight="bold">FRICCIÓN Y BOMBEO</text>
+              <text x="790" y="203" text-anchor="middle" fill="#ffffff" font-size="12">~ 6.0% (Rozamiento pistón/cojinetes)</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Panel 3: Guía de Lectura del Mapa BSFC -->
+        <div id="tab-bsfc-guide" class="diagram-panel">
+          <div>
+            <h4>3. Anatomía y Topografía de un Mapa de Rendimiento Motor (BSFC)</h4>
+            <p>El mapa superpone la curva de par/presión máxima (plena carga o WOT), las isolíneas hiperbólicas de potencia constante y las curvas cerradas de consumo específico. La isla central representa el punto más ecológico y eficiente del motor.</p>
+          </div>
+          <div class="svg-diagram-wrapper">
+            <svg viewBox="0 0 900 230" width="900" height="230" xmlns="http://www.w3.org/2000/svg">
+              <!-- Cuadro Conceptual -->
+              <rect x="30" y="20" width="250" height="190" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+              <text x="155" y="45" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="bold">EJES COORDENADOS</text>
+              <text x="50" y="75" fill="#f8fafc" font-size="11"><strong>Eje X:</strong> Régimen (1000 - 6000 RPM)</text>
+              <text x="50" y="95" fill="#94a3b8" font-size="10">Velocidad angular del cigüeñal</text>
+              <text x="50" y="125" fill="#f8fafc" font-size="11"><strong>Eje Y Izq:</strong> PME (0 - 18 bar)</text>
+              <text x="50" y="145" fill="#94a3b8" font-size="10">Carga / Par motor normalizado</text>
+              <text x="50" y="175" fill="#f8fafc" font-size="11"><strong>Eje Y Der:</strong> Potencia (0 - 180 kW)</text>
+              <text x="50" y="195" fill="#94a3b8" font-size="10">Potencia al freno disponible</text>
+
+              <!-- Cuadro Curvas de Nivel -->
+              <rect x="320" y="20" width="260" height="190" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+              <text x="450" y="45" text-anchor="middle" fill="#10b981" font-size="13" font-weight="bold">ISOLÍNEAS BSFC [g/kWh]</text>
+              <text x="340" y="75" fill="#34d399" font-size="11"><strong>🌟 255 g/kWh:</strong> Centro Óptimo</text>
+              <text x="340" y="95" fill="#94a3b8" font-size="10">Máx eficiencia térmica (32.8%)</text>
+              <text x="340" y="125" fill="#cbd5e1" font-size="11"><strong>260 - 310 g/kWh:</strong> Carga Media</text>
+              <text x="340" y="145" fill="#94a3b8" font-size="10">Régimen económico de autopista</text>
+              <text x="340" y="175" fill="#fbbf24" font-size="11"><strong>330 - 525 g/kWh:</strong> Carga Baja</text>
+              <text x="340" y="195" fill="#94a3b8" font-size="10">Pérdidas por mariposa de estrangulamiento</text>
+
+              <!-- Cuadro Curva WOT -->
+              <rect x="620" y="20" width="250" height="190" rx="10" fill="#1e293b" stroke="#f43f5e" stroke-width="1.5"/>
+              <text x="745" y="45" text-anchor="middle" fill="#f43f5e" font-size="13" font-weight="bold">CURVA LÍMITE WOT</text>
+              <text x="640" y="75" fill="#f87171" font-size="11"><strong>Línea Negra Superior Gruesa:</strong></text>
+              <text x="640" y="95" fill="#cbd5e1" font-size="10">Plena carga (Wide Open Throttle)</text>
+              <text x="640" y="125" fill="#f8fafc" font-size="11"><strong>Límite Mecánico:</strong></text>
+              <text x="640" y="145" fill="#94a3b8" font-size="10">El motor no puede entregar puntos</text>
+              <text x="640" y="160" fill="#94a3b8" font-size="10">por encima de esta curva de par.</text>
+              <text x="640" y="185" fill="#fb7185" font-size="11"><strong>Enriquecimiento WOT:</strong></text>
+              <text x="640" y="200" fill="#94a3b8" font-size="10">BSFC sube ligeramente (λ &lt; 1)</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fórmulas Matemáticas de Referencia -->
+    <section class="formulas-section">
+      <h3>📚 Ecuaciones Fundamentales del Sistema y Dinámica Longitudinal</h3>
+      <div class="formulas-grid">
+        <div class="formula-box">
+          <div class="formula-title">1. Motor & Cinemática</div>
+          T [N·m] = (PME [bar] × 10⁵ × Vd) / (4π)<br>
+          Potencia [kW] = (T [N·m] × RPM × 2π) / 60000<br>
+          V [m/s] = (2π × RPM × rd) / (60 × Rt × RF) | V [km/h] = V [m/s] × 3.6
+        </div>
+        <div class="formula-box">
+          <div class="formula-title">2. Fuerza de Tracción & Resistencias</div>
+          Ft [N] = (T × Rt × RF × ηt) / rd<br>
+          Faero [N] = 0.5 × ρ × Cd × Af × (V [m/s])²<br>
+          Frod [N] = fr × m × g × cos(θ) | Fpend [N] = m × g × sin(θ)<br>
+          Fres [N] = Faero + Frod + Fpend
+        </div>
+        <div class="formula-box">
+          <div class="formula-title">3. Balance Dinámico & VSP</div>
+          Aceleración: a [m/s²] = (Ft − Fres) / m<br>
+          Potencia Específica: VSP [W/kg o kW/t] = (Ft × V [m/s]) / m<br>
+          Consumo [L/100km] = (Consumo [L/h] / V [km/h]) × 100<br>
+          Eficiencia [%] = (83.72 / BSFC) × 100
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal para Editar Datos Institucionales -->
+  <div id="editModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>✏️ Personalizar Información Académica</h3>
+        <button id="closeModalBtn" class="modal-close-btn">&times;</button>
+      </div>
+      <form id="metaForm" class="modal-form">
+        <div class="modal-field">
+          <label for="inpUni">Universidad</label>
+          <input type="text" id="inpUni" class="modal-input" placeholder="Ej: Universidad de las Fuerzas Armadas ESPE">
+        </div>
+        <div class="modal-field">
+          <label for="inpFac">Facultad / Carrera</label>
+          <input type="text" id="inpFac" class="modal-input" placeholder="Ej: Facultad de Ingeniería Mecánica y Automotriz">
+        </div>
+        <div class="modal-field">
+          <label for="inpMat">Materia / Asignatura</label>
+          <input type="text" id="inpMat" class="modal-input" placeholder="Ej: Trenes de Potencia">
+        </div>
+        <div class="modal-field">
+          <label for="inpDoc">Docente</label>
+          <input type="text" id="inpDoc" class="modal-input" placeholder="Ej: Ing. Juan Pérez, Ph.D.">
+        </div>
+        <div class="modal-field">
+          <label for="inpInt">Integrantes (separados por coma)</label>
+          <input type="text" id="inpInt" class="modal-input" placeholder="Ej: Omar F., Carlos M., Sofía R.">
+        </div>
+        <div class="modal-field">
+          <label for="inpTem">Temas Tratados</label>
+          <input type="text" id="inpTem" class="modal-input" placeholder="Ej: Mapeo BSFC, Eficiencia Térmica y Transmisiones">
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="cancelModalBtn" class="btn-secondary">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar Datos</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastAlert" class="toast-alert"></div>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+</body>
+</html>
